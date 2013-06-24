@@ -1,4 +1,5 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import *
+
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -8,7 +9,9 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'ktkanketa.views.index', name='home'),
 	url(r'^survey_classification/$', 'ktkanketa.views.survey_classification'),
-	url(r'^vignete/$', 'ktkanketa.views.vignete'),
+	#url(r'^vignete/(?P<vignetteNumber>\d{1}>)/$', 'ktkanketa.views.vignete'),
+	#url(r'^vignete/$', 'ktkanketa.views.vignete'),
+	url(r'^vignete/(\d+)/$', 'ktkanketa.views.vignete'),
 	# url(r'^$', 'ktkanketa.views.home', name='home'),
     # url(r'^ktkanketa/', include('ktkanketa.foo.urls')),
 

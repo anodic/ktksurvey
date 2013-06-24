@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.core import urlresolvers
 from django.contrib import messages
 from vignete.models import ClassificationQ, Element
-from vignete.forms import Classification_form
+from vignete.forms import Classification_form, VignetteForm
 import datetime
 import settings
 
@@ -28,21 +28,44 @@ def survey_classification(request):
 			form.save_answers()
 			
 			#return render(request,'confirmation.html')
-			return HttpResponseRedirect("/vignete/")
+			return HttpResponseRedirect("/vignete/1")
 			
 						
 	else:
 			form = Classification_form()
-			
+			#print form
 	return render(request, 'survey_classification.html',{'form': form})
 
-def vignete(request):
-
-	
+def vignete(request,vignetteNumber):
+	subject = 222
+	vignete = vignetteNumber
+	if (int(vignete) % 2)==0:
+		questionTypeId = 2
+		answerType = 2
+	else:
+		questionTypeId = 1
+		answerType = 1
 	statements = Element.objects.order_by("id")
+	if request.method == 'POST':
+		form = VignetteForm(request.POST,subject=subject, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
+		if form.is_valid():
+			#questions = ClassificationQ.objects.order_by("id")
+			#for q in questions
+				#form[]
+			
+			form.save()
+			
+			#return render(request,'confirmation.html')
+			if int(vignete)<4:
+				return HttpResponseRedirect("/vignete/%s" % str(int(vignete)+1))
+			elif int(vignete)>=4:
+				return render(request,'confirmation.html')
 	
-
-	return render(request, 'survey_vignete.html',{'statements': statements})
+	form = VignetteForm(subject=subject, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
+	
+	
+	
+	return render(request, 'survey_vignete.html',{'statements': statements,'form':form})
 	
 #def SurveyDetail(request, id):
 #	survey = Survey.objects.get(id=id)

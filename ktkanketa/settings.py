@@ -114,7 +114,7 @@ ROOT_URLCONF = 'ktkanketa.urls'
 WSGI_APPLICATION = 'ktkanketa.wsgi.application'
 
 TEMPLATE_DIRS = (
-	"D:/WORK/00-Aprojects/django/ktkanketa/templates",
+	"D:/Research/12-KTKanketa/ktksurvey/templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
