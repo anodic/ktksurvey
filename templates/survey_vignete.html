@@ -3,18 +3,33 @@
 
 {% block body %}
 
-
+<div id="vignette">
 <h1>Vignete</h1>
+<div id="vignetteStatements">
+
+
 {% for statement in statements %}
 	<p>{{statement}}</p>
 
 
 {% endfor %}
-<form action="" method="post">
-{{form}}
-{% csrf_token %}
-<input type="submit" value="next">
-</form>
 
+</div>
+
+<form action="" method="post">
+{% for field in form %}
+<center><p id="vignette_question">{{field.label}}</p></center>
+<p class="radio_button">{{field}}</p>
+	{%if answer%}
+		<center><p>1=Eager 2=Comfortable 3=Somewhat interested 4=Uncertain 5=Disinterested  </p></center>
+	{%else%}	
+		<center><p><-Not interested in learning math | Very interested in learning math -> </p></center>
+	{%endif%}
+{% endfor %}
+{% csrf_token %}
+
+<center><input class="button" type="submit" value="Next"></center>
+</form>
+</div>
 {% endblock %}
 

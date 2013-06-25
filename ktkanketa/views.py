@@ -42,9 +42,11 @@ def vignete(request,vignetteNumber):
 	if (int(vignete) % 2)==0:
 		questionTypeId = 2
 		answerType = 2
+		answerEmotion= True
 	else:
 		questionTypeId = 1
 		answerType = 1
+		answerEmotion= False
 	statements = Element.objects.order_by("id")
 	if request.method == 'POST':
 		form = VignetteForm(request.POST,subject=subject, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
@@ -65,7 +67,7 @@ def vignete(request,vignetteNumber):
 	
 	
 	
-	return render(request, 'survey_vignete.html',{'statements': statements,'form':form})
+	return render(request, 'survey_vignete.html',{'statements': statements,'form':form,'answer':answerEmotion})
 	
 #def SurveyDetail(request, id):
 #	survey = Survey.objects.get(id=id)

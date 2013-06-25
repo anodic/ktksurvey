@@ -75,6 +75,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+	"D:/WORK/00-Aprojects/django/ktkanketa/vignete/static",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -114,7 +115,7 @@ ROOT_URLCONF = 'ktkanketa.urls'
 WSGI_APPLICATION = 'ktkanketa.wsgi.application'
 
 TEMPLATE_DIRS = (
-	"D:/Research/12-KTKanketa/ktksurvey/templates",
+	path("../templates/")
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

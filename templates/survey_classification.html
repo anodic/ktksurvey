@@ -3,24 +3,25 @@
 
 {% block body %}
 
+<div id="classification">
 
 <h1>Classification questions</h1>
 
 <form action="/survey_classification/" method="post">
         
 		{% for field in form %}
-		<p style="color:red;">{{ field.errors }}</p>
+		<p>{{ field.errors }}</p>
 		<p>	
 			{{ field.label }}
 			{{ field }}
 		</p>
 		{% endfor %}
 		{% csrf_token %}
-		<input type="submit" value="next">
+		<center><input class="button" type="submit" value="Start survey!"></center>
     </form>
 
 
-
+</div>
 
 {% endblock %}
 
