@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import models
 from django.utils.safestring import mark_safe
-from vignete.models import ClassificationQ, AnswerClassification, AnswerVignetes, VigneteQuestion
+from vignete.models import ClassificationQ, AnswerClassification, AnswerVignetes, VigneteQuestion, UserIds
 
 class HorizontalRadioRenderer(forms.RadioSelect.renderer):
   def render(self):
@@ -11,12 +11,14 @@ class Classification_form(forms.Form):
 	
 	def __init__(self, *args, **kwargs):
 		
+		sessionKey = kwargs.pop('sessionKey')
+		self.sessionKey = sessionKey
 		super(Classification_form, self).__init__(*args, **kwargs)	
 		# TO DO: kako ces prenjeti id subjekta: survey = kwargs.pop('survey')
 		
 		# for each classification question generate a field
 		for q in self.getQuestions():
-			self.fields["question_%d" % q.id] = forms.CharField(label=q.statement)
+			self.fields["question_%d" % q.id] = forms.CharField(label=q.statement, widget=forms.TextInput(attrs={'class': 'text_box'}))
 						
 	
 	def getQuestions(self):
@@ -37,7 +39,8 @@ class Classification_form(forms.Form):
 				q = ClassificationQ.objects.get(id=q_id)	
 				
 				a = AnswerClassification()
-				a.subject = 'bla'
+				subj = UserIds.objects.get(sessionId=self.sessionKey)
+				a.subject = subj.id
 				a.questionid = ClassificationQ.objects.get(id=q_id)
 				a.answer = field_value
 				a.save()
@@ -52,8 +55,8 @@ class VignetteForm(forms.Form):
 			
 	def __init__(self, *args, **kwargs):
 		# expects a survey object to be passed in initially
-		subject = kwargs.pop('subject')
-		self.subject = subject
+		sessionKey = kwargs.pop('sessionKey')
+		self.sessionKey = sessionKey
 		vignete = kwargs.pop('vignete')
 		self.vignete = vignete
 		questionTypeId = kwargs.pop('questionTypeId')
@@ -80,7 +83,10 @@ class VignetteForm(forms.Form):
 	def save(self, commit=True):
 		# save the response object
 		vignette = AnswerVignetes()
-		vignette.subject = self.subject
+		
+		subj = UserIds.objects.get(sessionId=self.sessionKey)
+		
+		vignette.subject = subj.id
 		vignette.vignete = self.vignete
 		vignette.questionType = VigneteQuestion.objects.get(id=self.questionTypeId)
 		

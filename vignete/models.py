@@ -39,3 +39,6 @@ class AnswerVignetes(models.Model):
 	answerType = models.IntegerField()
 	answer = models.IntegerField()
 
+	
+class UserIds(models.Model):
+	sessionId = models.CharField(max_length=100)

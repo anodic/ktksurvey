@@ -4,11 +4,11 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core import urlresolvers
 from django.contrib import messages
-from vignete.models import ClassificationQ, Element
+from vignete.models import ClassificationQ, Element, UserIds
 from vignete.forms import Classification_form, VignetteForm
 import datetime
 import settings
-
+import math
 #from models import Question, Survey, Category
 #from forms import ResponseForm
 
@@ -17,9 +17,11 @@ def index(request):
 	return render(request, 'index.html')
 
 def survey_classification(request):
-	#questions = ClassificationQ.objects.order_by("id")
+	# get session key	
+	sessionKey = request.session._session_key
+	
 	if request.method == 'POST':
-		form = Classification_form(request.POST)
+		form = Classification_form(request.POST,sessionKey=sessionKey)
 		if form.is_valid():
 			#questions = ClassificationQ.objects.order_by("id")
 			#for q in questions
@@ -32,14 +34,19 @@ def survey_classification(request):
 			
 						
 	else:
-			form = Classification_form()
-			#print form
+		form = Classification_form(sessionKey=sessionKey)
+		if not UserIds.objects.filter(sessionId=sessionKey).exists(): 
+			a = UserIds()
+			a.sessionId=sessionKey
+			a.save()
+		#print form
 	return render(request, 'survey_classification.html',{'form': form})
 
-def vignete(request,vignetteNumber):
-	subject = 222
-	vignete = vignetteNumber
-	if (int(vignete) % 2)==0:
+def vignete(request,vignettePageNumber):
+	sessionKey = request.session._session_key
+	#subject = 222
+	vignete = math.ceil(float(vignettePageNumber)/2)
+	if (int(vignettePageNumber) % 2)==0:
 		questionTypeId = 2
 		answerType = 2
 		answerEmotion= True
@@ -49,7 +56,7 @@ def vignete(request,vignetteNumber):
 		answerEmotion= False
 	statements = Element.objects.order_by("id")
 	if request.method == 'POST':
-		form = VignetteForm(request.POST,subject=subject, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
+		form = VignetteForm(request.POST,sessionKey=sessionKey, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
 		if form.is_valid():
 			#questions = ClassificationQ.objects.order_by("id")
 			#for q in questions
@@ -58,12 +65,12 @@ def vignete(request,vignetteNumber):
 			form.save()
 			
 			#return render(request,'confirmation.html')
-			if int(vignete)<4:
-				return HttpResponseRedirect("/vignete/%s" % str(int(vignete)+1))
-			elif int(vignete)>=4:
+			if int(vignettePageNumber)<4:
+				return HttpResponseRedirect("/vignete/%s" % str(int(vignettePageNumber)+1))
+			elif int(vignettePageNumber)>=4:
 				return render(request,'confirmation.html')
 	
-	form = VignetteForm(subject=subject, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
+	form = VignetteForm(sessionKey=sessionKey, vignete=vignete, questionTypeId=questionTypeId, elements=statements, answerType=answerType)
 	
 	
 	
