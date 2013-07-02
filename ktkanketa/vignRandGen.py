@@ -16,7 +16,8 @@ def generate_vignettes(numElementsPerSilos, numVignettes, numElemsPerVignettes, 
     numElements = sum(numElementsPerSilos)      
     # number of vignettes that were generated
     numGeneratedVignettes = numVignettes        
-    
+    print "jjj" 
+	
     # MATRICES FOR RESULTS AND TRACKING
     # incidence matrix  (result) 
     indMat = numpy.zeros((numElements,numVignettes))  
@@ -63,6 +64,8 @@ def generate_vignettes(numElementsPerSilos, numVignettes, numElemsPerVignettes, 
         currCutPerm = currPerm[0:numElemsPerVignettes]
         # from remainingSilos take those from permutation list                
         currSilos = [remainingSilos[i+1] for i in currCutPerm]        
+        
+        #import pdb; pdb.set_trace()
         
         # SELECT SILOS AND ELEMENTS
         for k in range(numElemsPerVignettes):

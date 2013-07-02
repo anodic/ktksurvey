@@ -18,9 +18,26 @@ class Silo(models.Model):
 	
 	
 class ClassificationQ(models.Model):
+	TEXT = 'text'
+	RADIO = 'radio'
+	SELECT = 'select'
+	SELECT_MULTIPLE = 'select-multiple'
+	INTEGER = 'integer'
+
+	QUESTION_TYPES = (
+		(TEXT, 'text'),
+		(RADIO, 'radio'),
+		(SELECT, 'select'),
+		(SELECT_MULTIPLE, 'Select Multiple'),
+		(INTEGER, 'integer'),
+	)
 	statement = models.CharField(max_length=500)
+	qType = models.CharField(max_length=200, choices=QUESTION_TYPES, default=TEXT)
+	choices = models.TextField(blank=True, null=True)
 	def __unicode__(self):
 		return self.statement
+		
+		
 class AnswerClassification(models.Model):
 	subject = models.CharField(max_length=50)
 	questionid = models.ForeignKey(ClassificationQ)

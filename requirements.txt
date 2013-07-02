@@ -1,0 +1,6 @@
+python
+
+django
+
+numpy
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy
