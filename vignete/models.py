@@ -16,6 +16,7 @@ class Silo(models.Model):
 	def __unicode__(self):
 		return self.name
 	
+	
 class ClassificationQ(models.Model):
 	statement = models.CharField(max_length=500)
 	def __unicode__(self):
