@@ -9,6 +9,9 @@ TEMPLATE_DEBUG = DEBUG
 ROOT = os.path.dirname(os.path.abspath(__file__))
 path = lambda *a: os.path.join(ROOT, *a)
 
+# close session when browser closes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )

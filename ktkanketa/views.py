@@ -92,6 +92,7 @@ def vignete(request,vignettePageNumber):
 			if int(vignettePageNumber)<2*len(request.session['vigDict']):
 				return HttpResponseRedirect("/vignete/%s" % str(int(vignettePageNumber)+1))
 			elif int(vignettePageNumber)>=2*len(request.session['vigDict']):
+				request.session.flush()
 				return render(request,'confirmation.html')
 	
 	form = VignetteForm(sessionKey=sessionKey, vignete=vignete, questionTypeId=questionTypeId, elements=elements, answerType=answerType)
