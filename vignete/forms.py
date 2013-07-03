@@ -18,9 +18,21 @@ class Classification_form(forms.Form):
 		
 		# for each classification question generate a field
 		for q in self.getQuestions():
-			self.fields["question_%d" % q.id] = forms.CharField(label=q.statement, widget=forms.TextInput(attrs={'class': 'text_box'}))
-						
-	
+			if q.qType == ClassificationQ.TEXT:
+				self.fields["question_%d" % q.id] = forms.CharField(label=q.statement, widget=forms.TextInput(attrs={'class': 'text_box'}))
+			elif q.qType == ClassificationQ.SELECT:
+				question_choices = q.get_choices()
+				# add an empty option at the top so that the user has to
+				# explicitly select one of the options
+				question_choices = tuple([('', '-------------')]) + question_choices
+				self.fields["question_%d" % q.pk] = forms.ChoiceField(label=q.statement, widget=forms.Select, choices = question_choices)
+			elif q.qType == ClassificationQ.RADIO:
+				question_choices = q.get_choices()
+				self.fields["question_%d" % q.pk] = forms.ChoiceField(label=q.statement, 
+					widget=forms.RadioSelect(renderer=HorizontalRadioRenderer), choices = question_choices)
+			elif q.qType == ClassificationQ.SELECT_MULTIPLE:
+				question_choices = q.get_choices()
+				self.fields["question_%d" % q.pk] = forms.MultipleChoiceField(label=q.statement, widget=forms.CheckboxSelectMultiple, choices = question_choices)
 	def getQuestions(self):
 			questions = ClassificationQ.objects.order_by("id")
 			return questions

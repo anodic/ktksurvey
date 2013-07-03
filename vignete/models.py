@@ -34,6 +34,18 @@ class ClassificationQ(models.Model):
 	statement = models.CharField(max_length=500)
 	qType = models.CharField(max_length=200, choices=QUESTION_TYPES, default=TEXT)
 	choices = models.TextField(blank=True, null=True)
+	
+	def get_choices(self):
+		''' parse the choices field and return a tuple formatted appropriately
+		for the 'choices' argument of a form widget.'''
+		choices = self.choices.split(',')
+		choices_list = []
+		for c in choices:
+			c = c.strip()
+			choices_list.append((c,c))
+		choices_tuple = tuple(choices_list)
+		return choices_tuple
+	
 	def __unicode__(self):
 		return self.statement
 		
@@ -41,7 +53,7 @@ class ClassificationQ(models.Model):
 class AnswerClassification(models.Model):
 	subject = models.CharField(max_length=50)
 	questionid = models.ForeignKey(ClassificationQ)
-	answer = models.CharField(max_length=50)
+	answer = models.CharField(max_length=500)
 	
 		
 class VigneteQuestion(models.Model):
