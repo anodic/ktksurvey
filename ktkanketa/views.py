@@ -40,7 +40,7 @@ def survey_classification(request):
 				elemsPerSilos.append(silo.elements.count())
 			
 			# generate vignettes for this user
-			vigGeneratorResult = vrg.generate_vignettes(elemsPerSilos,5,4,5)
+			vigGeneratorResult = vrg.generate_vignettes(elemsPerSilos,2,4,5)
 			
 			# save generated vignettes into session 'vigDict'
 			request.session['vigDict']=vigGeneratorResult["vignetteDict"]

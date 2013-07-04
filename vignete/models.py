@@ -38,7 +38,7 @@ class ClassificationQ(models.Model):
 	def get_choices(self):
 		''' parse the choices field and return a tuple formatted appropriately
 		for the 'choices' argument of a form widget.'''
-		choices = self.choices.split(',')
+		choices = self.choices.split('-')
 		choices_list = []
 		for c in choices:
 			c = c.strip()
