@@ -12,6 +12,8 @@ path = lambda *a: os.path.join(ROOT, *a)
 # close session when browser closes
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+SESSION_SAVE_EVERY_REQUEST = True
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )

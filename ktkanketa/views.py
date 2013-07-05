@@ -20,7 +20,7 @@ def index(request):
 def survey_classification(request):
 	# get session key	
 	sessionKey = request.session._session_key
-	
+	#import pdb; pdb.set_trace()
 	if request.method == 'POST':
 		form = Classification_form(request.POST,sessionKey=sessionKey)
 		if form.is_valid():
@@ -59,8 +59,10 @@ def survey_classification(request):
 	return render(request, 'survey_classification.html',{'form': form})
 
 def vignete(request,vignettePageNumber):
+	# get session key
 	sessionKey = request.session._session_key
-	#subject = 222
+	
+	#use vignettePageNumber to calculate vignete, question type, answer type
 	vignete = math.ceil(float(vignettePageNumber)/2)
 	if (int(vignettePageNumber) % 2)==0:
 		questionTypeId = 2
@@ -71,21 +73,24 @@ def vignete(request,vignettePageNumber):
 		answerType = 1
 		answerEmotion= False
 	
-	elementsForVignette = request.session['vigDict'][str(int(vignete))]#["A3","B2","C3","D4"]
+	# get appropriate elements from vigDict that was saved in survey_classification function
+	elementsForVignette = request.session['vigDict'][str(int(vignete))]
+	
+	# initialize statements and elements
 	statements=[]
 	elements = []
+	
+	# fill statements and elements
 	for elem in elementsForVignette:
 		grabbedElement = Element.objects.get(code=elem)
 		statements.append(grabbedElement.statement)
 		elements.append(grabbedElement)
-	#statements = Element.objects.order_by("id")
+	
+	# if we came here from submitting the form
 	if request.method == 'POST':
 		form = VignetteForm(request.POST,sessionKey=sessionKey, vignete=vignete, questionTypeId=questionTypeId, elements=elements, answerType=answerType)
+		# if the form is valid save the inputs
 		if form.is_valid():
-			#questions = ClassificationQ.objects.order_by("id")
-			#for q in questions
-				#form[]
-			
 			form.save()
 			
 			#return render(request,'confirmation.html')
@@ -95,34 +100,11 @@ def vignete(request,vignettePageNumber):
 				request.session.flush()
 				return render(request,'confirmation.html')
 	
+	# if we came here from classification form
 	form = VignetteForm(sessionKey=sessionKey, vignete=vignete, questionTypeId=questionTypeId, elements=elements, answerType=answerType)
 	
 	
 	
 	return render(request, 'survey_vignete.html',{'statements': statements,'form':form,'answer':answerEmotion})
 	
-#def SurveyDetail(request, id):
-#	survey = Survey.objects.get(id=id)
-	#category_items = Category.objects.filter(survey=survey)
-	#categories = [c.name for c in category_items]
-	#print 'categories for this survey:'
-	#print categories
-	#if request.method == 'POST':
-	#	form = ResponseForm(request.POST, survey=survey)
-	#	if form.is_valid():
-	#		response = form.save()
-	#		return HttpResponseRedirect("/confirm/%s" % response.interview_uuid)
-	#else:
-	#	form = ResponseForm(survey=survey)
-	#	print form
-	#	# TODO sort by category
-	#return render(request, 'survey.html', {'response_form': form, 'survey': survey, 'categories': categories})
-
-#def Confirm(request, uuid):
-#	email = settings.support_email
-#	return render(request, 'confirm.html', {'uuid':uuid, "email": email})
-
-#def privacy(request):
-#	return render(request, 'privacy.html')
-
 
