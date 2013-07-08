@@ -10,6 +10,7 @@ import datetime
 import settings
 import math
 import vignRandGen as vrg
+import ConfigParser 
 #from models import Question, Survey, Category
 #from forms import ResponseForm
 
@@ -29,7 +30,16 @@ def survey_classification(request):
 				#form[]
 			
 			form.save_answers()
-			
+				
+			#READ CONFIGURATION FILE
+			confFileName = 'D:/Research/12-KTKanketa/ktksurvey/ktkanketa/survey.cfg'
+			config = ConfigParser .RawConfigParser()
+			config.read(confFileName)
+			numVignettes = int(config.get('randomisationScheme', 'numVignettes'))
+			numElemsPerVignettes = int(config.get('randomisationScheme', 'numElemsPerVignettes'))
+			numElementAppearances = int(config.get('randomisationScheme', 'numElementAppearances'))
+			#import pdb; pdb.set_trace()
+					
 			# GET NUMBER OF ELEMENTS PER SILOS FORM THE DATASET
 			# get silos from dataset
 			silos = Silo.objects.order_by("name")
@@ -40,7 +50,7 @@ def survey_classification(request):
 				elemsPerSilos.append(silo.elements.count())
 			
 			# generate vignettes for this user
-			vigGeneratorResult = vrg.generate_vignettes(elemsPerSilos,2,4,5)
+			vigGeneratorResult = vrg.generate_vignettes(elemsPerSilos,numVignettes,numElemsPerVignettes,numElementAppearances)
 			
 			# save generated vignettes into session 'vigDict'
 			request.session['vigDict']=vigGeneratorResult["vignetteDict"]

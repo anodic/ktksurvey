@@ -16,8 +16,9 @@ def generate_vignettes(numElementsPerSilos, numVignettes, numElemsPerVignettes, 
     numElements = sum(numElementsPerSilos)      
     # number of vignettes that were generated
     numGeneratedVignettes = numVignettes        
-    print "jjj" 
+    #print "jjj" 
 	
+    #import pdb; pdb.set_trace()
     # MATRICES FOR RESULTS AND TRACKING
     # incidence matrix  (result) 
     indMat = numpy.zeros((numElements,numVignettes))  
@@ -109,7 +110,5 @@ def generate_vignettes(numElementsPerSilos, numVignettes, numElemsPerVignettes, 
     numGeneratedVignettes = j
     return  {"indMat":indMat,"numGeneratedVignettes":numGeneratedVignettes,"vignetteDict":vignetteDict}
 
-#rezu= generate_vignettes([6,6,6,6,6,6,6], 6, 4, 5)
 
-#a=4
 

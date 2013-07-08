@@ -1,6 +1,22 @@
-python
+1) download and install python 2.7.5
+ - http://www.python.org/getit/
 
-django
+2) download and install django 
+ - https://www.djangoproject.com/download/
+ - download  Django-1.5.1.tar.gz
+ - unzip somewhere
+ - command prompt, position in Django folder, run "python setup.py install"
+ 
+3) download and install mysql-python
+ - for win32: http://sourceforge.net/projects/mysql-python/
+ - for win64: http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python, MySQL-python-1.2.4.win-amd64-py2.7.exe
 
-numpy
-http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy
+(Additional information for installing django on: http://www.djangobook.com/en/2.0/chapter02.html) 
+ 
+4) download and install numpy
+ - win32: http://sourceforge.net/projects/numpy/files/NumPy/1.7.1/, numpy-1.7.1-win32-superpack-python2.7.exe
+ - win64: http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy, numpy-MKL-1.7.1.win-amd64-py2.7.exe
+ 
+5) download and install any xampp
+
+
