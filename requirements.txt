@@ -6,6 +6,11 @@
  - download  Django-1.5.1.tar.gz
  - unzip somewhere
  - command prompt, position in Django folder, run "python setup.py install"
+ - to test the successful installation do the following:
+	- in command prompt type "python" (you will enter python shell)
+	- type "import django"
+	- type "print(django.get_version())"
+	- if it says "1.5.1" the installation was successful
  
 3) download and install mysql-python
  - for win32: http://sourceforge.net/projects/mysql-python/
@@ -19,4 +24,61 @@
  
 5) download and install any xampp
 
+6) create database
+ - start apache and mySql
+ - go to browser, http://localhost/phpmyadmin
+ - go to databases and create database with name "ktkanketadb"
+ 
+7) initialize the database 
+ - type "python manage.py syncdb"
+ - when it asks you to create super user type "yes"
+ - choose whatever username, email, password you want
+ 
+8) fill the database
+ - you need to input vignette questions, classification questions and elemants&silos into database
+ - input are .csv files, you can find examples in csv data folder (ktkanketa\csvdata)
+ - change them or use them for demo
+ - go to command prompt
+ - position in main "ktkanketa" folder (e.g. D:\WORK\00-Aprojects\django\ktkanketa)
+ - to load them into database type:
+  - python manage.py loadVignetteQuestions vignetteQuestions.csv
+  - python manage.py loadClassQuestions classquestions.csv
+  - python manage.py loadElements elements.csv
+  - note that elements in demo version contain statements like "S1E1" instead of real statements, to inspect the random generator
+  
+9) start django development server
+ - go to command prompt
+ - position in main "ktkanketa" folder (e.g. D:\WORK\00-Aprojects\django\ktkanketa)
+ - type "python manage.py runserver"
+ - you can exit development server by pressing ctrl+c
+ 
+10) participate in survey
+ - go to browser
+ - go to url "http://127.0.0.1:8000/"
+ - do the survey
 
+11) create output file
+ - output file will contain survey answers
+ - it will be stored in the output folder (ktkanketa\output)
+ - go to command prompt
+ - position in main "ktkanketa" folder (e.g. D:\WORK\00-Aprojects\django\ktkanketa)
+ - type "python manage.py createOutput output.csv" (or any other .csv file name)
+ 
+12) configuration file
+ - located in ktkanketa\ktkanketa\survey.cfg
+ - it cotains paramethers for random generator
+ - it will manage versions if needed
+ - parameters can be changed but it should be called survey.cfg and located where mentioned
+ 
+13) if new elements, questions, etc. want to be loaded, old ones need to be flushed
+ - it will also delete answers in the database, but not output files once they were created.
+ - to flush old questions do the following:
+  - go to command prompt
+  - position in main "ktkanketa" folder (e.g. D:\WORK\00-Aprojects\django\ktkanketa)
+  - type "python manage.py runserver"
+  - answer "yes"
+  - create new superuser "yes"
+  - choose whatever username, email, password you want
+ - to input new elements, questions, classification questions repeat step 8)
+
+ 

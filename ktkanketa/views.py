@@ -11,8 +11,11 @@ import settings
 import math
 import vignRandGen as vrg
 import ConfigParser 
+import sys
 #from models import Question, Survey, Category
 #from forms import ResponseForm
+
+import os
 
 
 def index(request):
@@ -32,9 +35,14 @@ def survey_classification(request):
 			form.save_answers()
 				
 			#READ CONFIGURATION FILE
-			confFileName = 'D:/Research/12-KTKanketa/ktksurvey/ktkanketa/survey.cfg'
-			config = ConfigParser .RawConfigParser()
-			config.read(confFileName)
+			#get current path
+			directory = os.path.abspath(os.path.join(os.path.dirname( __file__ )))
+			confFileName = '\\survey.cfg'
+			confFilePath = directory + confFileName
+			#import pdb; pdb.set_trace()
+			
+			config = ConfigParser.RawConfigParser()
+			config.read(confFilePath)
 			numVignettes = int(config.get('randomisationScheme', 'numVignettes'))
 			numElemsPerVignettes = int(config.get('randomisationScheme', 'numElemsPerVignettes'))
 			numElementAppearances = int(config.get('randomisationScheme', 'numElementAppearances'))
